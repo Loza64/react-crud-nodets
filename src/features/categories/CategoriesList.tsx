@@ -19,7 +19,7 @@ const PAGE_SIZE = 10
 export default function CategoriesList() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
-  const [showDeleted, setShowDeleted] = useState(false)
+  const [deleted, setDeleted] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [editingId, setEditingId] = useState<string | number | null>(null)
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(
@@ -31,9 +31,9 @@ export default function CategoriesList() {
       page,
       pageSize: PAGE_SIZE,
       ...(search ? { search } : {}),
-      status: showDeleted ? 'deleted' : 'active',
+      deleted,
     }),
-    [page, search, showDeleted]
+    [page, search, deleted]
   )
 
   const categoriesQuery = useFindAll<Category>({
@@ -165,8 +165,8 @@ export default function CategoriesList() {
         <label className="checkbox-label">
           <input
             type="checkbox"
-            checked={showDeleted}
-            onChange={(e) => setShowDeleted(e.target.checked)}
+            checked={deleted}
+            onChange={(e) => setDeleted(e.target.checked)}
           />
           Mostrar eliminadas
         </label>

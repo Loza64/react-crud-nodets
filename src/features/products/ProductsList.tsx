@@ -26,7 +26,7 @@ const formatPrice = (price: number | string) =>
 export default function ProductsList() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
-  const [showDeleted, setShowDeleted] = useState(false)
+  const [deleted, setDeleted] = useState(false)
   const [categoryFilter, setCategoryFilter] = useState<Category | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [editingId, setEditingId] = useState<string | number | null>(null)
@@ -37,10 +37,10 @@ export default function ProductsList() {
       page,
       pageSize: PAGE_SIZE,
       ...(search ? { search } : {}),
-      status: showDeleted ? 'deleted' : 'active',
+      deleted,
       ...(categoryFilter ? { category: categoryFilter.id } : {}),
     }),
-    [page, search, showDeleted, categoryFilter]
+    [page, search, deleted, categoryFilter]
   )
 
   const productsQuery = useFindAll<Product>({
@@ -206,8 +206,8 @@ export default function ProductsList() {
         <label className="checkbox-label">
           <input
             type="checkbox"
-            checked={showDeleted}
-            onChange={(e) => setShowDeleted(e.target.checked)}
+            checked={deleted}
+            onChange={(e) => setDeleted(e.target.checked)}
           />
           Mostrar eliminados
         </label>
